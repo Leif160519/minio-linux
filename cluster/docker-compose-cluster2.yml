@@ -1,0 +1,74 @@
+version: '3'
+services:
+  minio-cluster1:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio-cluster1
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    volumes:
+      - /minio/data/1:/minio:rw
+      - /minio/config/1:/root/.minio:rw
+    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    networks: 
+      - net
+
+  minio-cluster2:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio-cluster2
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    volumes:
+      - /minio/data/2:/minio:rw
+      - /minio/config/2:/root/.minio:rw
+    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    networks:
+      - net
+
+  minio-cluster3:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio-cluster3
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    volumes:
+      - /minio/data/3:/minio:rw
+      - /minio/config/3:/root/.minio:rw
+    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    networks:
+      - net
+
+  minio-cluster4:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio-cluster4
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    volumes:
+      - /minio/data/4:/minio:rw
+      - /minio/config/4:/root/.minio:rw
+    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    networks:
+      - net
+
+  minio:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    ports:
+      - 9000:9000
+    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge

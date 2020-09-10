@@ -1,0 +1,16 @@
+version: '3'
+services:
+  minio:
+    image: minio/minio:latest
+    restart: always
+    container_name: minio
+    environment:
+      - "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE"
+      - "MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY"
+    ports:
+      - 9000:9000
+    volumes:
+      - /minio/data:/data:rw
+      - /minio/config:/root/.minio:rw
+    command: server /data
+    network_mode: bridge
