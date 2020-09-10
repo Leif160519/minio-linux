@@ -1,6 +1,7 @@
 ## minio [官方中文文档](https://docs.minio.io/cn/)
 
 ## 文件结构
+```
 minio-linux                                 
 ├── cluster                            # 集群
 │   ├── docker-compose-cluster2.yml      # 单主机集群方式，可用于测试
@@ -9,3 +10,4 @@ minio-linux
 └── single                             # 单节点
     ├── docker-compose.yml               # Docker部署方式
     └── minio.sh                         # Shell脚本方式
+```
