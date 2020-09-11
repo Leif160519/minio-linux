@@ -1,60 +1,80 @@
 version: '3'
 services:
-  minio-cluster1:
+  minio1:
     image: minio/minio:latest
     restart: always
-    container_name: minio-cluster1
+    container_name: cluster_minio_1
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
     volumes:
       - /minio/data/1:/minio:rw
       - /minio/config/1:/root/.minio:rw
-    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    command: server http://minio{1...4}/minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
     networks: 
-      - net
+      - minio_net
 
-  minio-cluster2:
+  minio2:
     image: minio/minio:latest
     restart: always
-    container_name: minio-cluster2
+    container_name: cluster_minio_2
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
     volumes:
       - /minio/data/2:/minio:rw
       - /minio/config/2:/root/.minio:rw
-    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    command: server http://minio{1...4}/minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
     networks:
-      - net
+      - minio_net
 
-  minio-cluster3:
+  minio3:
     image: minio/minio:latest
     restart: always
-    container_name: minio-cluster3
+    container_name: cluster_minio_3
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
     volumes:
       - /minio/data/3:/minio:rw
       - /minio/config/3:/root/.minio:rw
-    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    command: server http://minio{1...4}/minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
     networks:
-      - net
+      - minio_net
 
-  minio-cluster4:
+  minio4:
     image: minio/minio:latest
     restart: always
-    container_name: minio-cluster4
+    container_name: cluster_minio_4
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
     volumes:
       - /minio/data/4:/minio:rw
       - /minio/config/4:/root/.minio:rw
-    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    command: server http://minio{1...4}/minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
     networks:
-      - net
+      - minio_net
 
   minio:
     image: minio/minio:latest
@@ -65,10 +85,15 @@ services:
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
     ports:
       - 9000:9000
-    command: server http://minio-cluster1/minio http://minio-cluster2/minio http://minio-cluster3/minio http://minio-cluster4/minio
+    command: server http://minio{1...4}/minio
+    depends_on:
+      - minio1
+      - minio2
+      - minio3
+      - minio4
     networks:
-      - net
+      - minio_net
 
 networks:
-  net:
+  minio_net:
     driver: bridge
