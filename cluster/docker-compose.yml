@@ -7,9 +7,11 @@ services:
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /minio/data/1:/minio:rw
       - /minio/config/1:/root/.minio:rw
+      - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
     command: server http://minio{1...4}/minio
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -26,9 +28,11 @@ services:
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /minio/data/2:/minio:rw
       - /minio/config/2:/root/.minio:rw
+      - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
     command: server http://minio{1...4}/minio
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -45,9 +49,11 @@ services:
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /minio/data/3:/minio:rw
       - /minio/config/3:/root/.minio:rw
+      - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
     command: server http://minio{1...4}/minio
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -64,9 +70,11 @@ services:
     environment:
       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /minio/data/4:/minio:rw
       - /minio/config/4:/root/.minio:rw
+      - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
     command: server http://minio{1...4}/minio
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -77,15 +85,13 @@ services:
       - minio_net
 
   minio:
-    image: minio/minio:latest
+    image: nginx
     restart: always
-    container_name: minio
-    environment:
-      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
-      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+    container_name: minio_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 9000:9000
-    command: server http://minio{1...4}/minio
     depends_on:
       - minio1
       - minio2

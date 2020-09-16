@@ -5,12 +5,14 @@ services:
     restart: always
     container_name: minio
     environment:
-      - "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE"
-      - "MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY"
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     ports:
       - 9000:9000
     volumes:
       - /minio/data:/data:rw
       - /minio/config:/root/.minio:rw
+      - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
     command: server /data
     network_mode: bridge
