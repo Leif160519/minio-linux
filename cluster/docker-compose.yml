@@ -9,6 +9,7 @@ services:
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
+      - /etc/localtime:/etc/localtime
       - /minio/data/1:/minio:rw
       - /minio/config/1:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
@@ -30,6 +31,7 @@ services:
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
+      - /etc/localtime:/etc/localtime
       - /minio/data/2:/minio:rw
       - /minio/config/2:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
@@ -51,6 +53,7 @@ services:
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
+      - /etc/localtime:/etc/localtime
       - /minio/data/3:/minio:rw
       - /minio/config/3:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
@@ -72,6 +75,7 @@ services:
       - MINIO_SECRET_KEY=wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
+      - /etc/localtime:/etc/localtime
       - /minio/data/4:/minio:rw
       - /minio/config/4:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
@@ -89,6 +93,7 @@ services:
     restart: always
     container_name: minio_nginx
     volumes:
+      - /etc/localtime:/etc/localtime
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 9000:9000

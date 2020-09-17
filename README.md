@@ -47,3 +47,45 @@ export MINIO_PROMETHEUS_AUTH_TYPE="public"
 [Minio 监控-12063](https://grafana.com/grafana/dashboards/12063)
 
 ![image.png](images/3.png)
+
+## 使用s3fs挂载minio对象存储
+
+- 1.编辑docker-compose文件，挂载本机localtime文件保证容器与宿主机时间同步（时区不同步也会挂载失败）
+```
+volumes:
+  - /etc/localtime:/etc/localtime
+
+...
+```
+
+- 2.安装`s3fs-fuse`
+```
+# centos
+yum -y install s3fs-fuse
+
+# ubuntu
+apt-get -y install s3fs
+```
+
+- 3.配置`.passwd-minio`
+```
+echo <MINIO_ACCESS_KEY>:<MINIO_SECRET_KEY> > .passwd-minio
+
+# 注意修改文件权限为只读
+chmod 600 .passwd-minio
+```
+
+- 4.去minio网页创建bucket
+
+- 5.挂载文件系统
+```
+s3fs -o passwd_file=.passwd_minio -o use_path_request_style -o endpoint=us-east-1 -o url=http://<mionio_server>:9000 -o bucket=<bucket_name> <mount_dir>
+```
+
+> 参数解释：
+> passed_file: 指定密码文件
+> endpoint：节点，默认美国东一区
+> url：minio服务端ip地址
+> bucket：存储桶名称
+
+参考：[使用s3fs-fuse 挂载minio s3 对象存储](https://www.cnblogs.com/rongfengliang/p/10790072.html)

@@ -2,6 +2,7 @@ docker run -d \
      --name minio\
      -p 9000:9000 \
      --restart=always \
+     -v /etc/localtime:/etc/localtime \
      -v /minio/data:/data \
      -v /minio/config:/root/.minio
      -v /minio/prometheus/metrics:/minio/prometheus/metrics

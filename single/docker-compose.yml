@@ -11,6 +11,7 @@ services:
     ports:
       - 9000:9000
     volumes:
+      - /etc/localtime:/etc/localtime
       - /minio/data:/data:rw
       - /minio/config:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
