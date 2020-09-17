@@ -83,9 +83,9 @@ s3fs -o passwd_file=.passwd_minio -o use_path_request_style -o endpoint=us-east-
 ```
 
 > 参数解释：
-> passed_file: 指定密码文件
-> endpoint：节点，默认美国东一区
-> url：minio服务端ip地址
-> bucket：存储桶名称
+- passed_file: 指定密码文件
+- endpoint：节点，默认美国东一区
+- url：minio服务端ip地址
+- bucket：存储桶名称
 
 参考：[使用s3fs-fuse 挂载minio s3 对象存储](https://www.cnblogs.com/rongfengliang/p/10790072.html)
