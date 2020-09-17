@@ -10,10 +10,10 @@ services:
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /etc/localtime:/etc/localtime
-      - /minio/data/1:/minio:rw
+      - /minio/data/1:/minio/data:rw
       - /minio/config/1:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
-    command: server http://minio{1...4}/minio
+    command: server http://minio{1...4}/minio/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -32,10 +32,10 @@ services:
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /etc/localtime:/etc/localtime
-      - /minio/data/2:/minio:rw
+      - /minio/data/2:/minio/data:rw
       - /minio/config/2:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
-    command: server http://minio{1...4}/minio
+    command: server http://minio{1...4}/minio/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -54,10 +54,10 @@ services:
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /etc/localtime:/etc/localtime
-      - /minio/data/3:/minio:rw
+      - /minio/data/3:/minio/data:rw
       - /minio/config/3:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
-    command: server http://minio{1...4}/minio
+    command: server http://minio{1...4}/minio/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -76,10 +76,10 @@ services:
       - MINIO_PROMETHEUS_AUTH_TYPE=public
     volumes:
       - /etc/localtime:/etc/localtime
-      - /minio/data/4:/minio:rw
+      - /minio/data/4:/minio/data:rw
       - /minio/config/4:/root/.minio:rw
       - /minio/prometheus/metrics:/minio/prometheus/metrics:rw
-    command: server http://minio{1...4}/minio
+    command: server http://minio{1...4}/minio/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s

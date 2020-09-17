@@ -79,7 +79,7 @@ chmod 600 .passwd-minio
 
 - 5.挂载文件系统
 ```
-s3fs -o passwd_file=.passwd_minio -o use_path_request_style -o endpoint=us-east-1 -o url=http://<mionio_server>:9000 -o bucket=<bucket_name> <mount_dir>
+s3fs -o passwd_file=.passwd-minio -o use_path_request_style -o endpoint=us-east-1 -o url=http://<mionio_server>:9000 -o bucket=<bucket_name> <mount_dir>
 ```
 
 > 参数解释：
